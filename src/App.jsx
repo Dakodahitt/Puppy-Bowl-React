@@ -1,20 +1,21 @@
 import React, { useState, useEffect } from 'react';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, Link, useParams } from 'react-router-dom';
 import AllPlayers from './components/AllPlayers';
-import SinglePlayer from './components/SinglePlayer';
-import PlayerCard from './components/PlayerCard'; // Assuming you have a PlayerCard component
+import PlayerCard from './components/PlayerCard';
 import './App.css';
 
 const App = () => {
+    // State variables for managing players, form data, search query
     const [players, setPlayers] = useState([]);
     const [formData, setFormData] = useState({
         name: '',
         breed: '',
         imageUrl: ''
     });
+    const [searchQuery, setSearchQuery] = useState('');
 
+    // Fetch players from API when component mounts
     useEffect(() => {
-        // Fetch players from the API when the component mounts
         const fetchPlayers = async () => {
             try {
                 const response = await fetch('https://fsa-puppy-bowl.herokuapp.com/api/2401-FTB-MT-WEB-PT/players');
@@ -32,6 +33,7 @@ const App = () => {
         fetchPlayers();
     }, []);
 
+    // Handler for input change in form
     const handleInputChange = (event) => {
         const { name, value } = event.target;
         setFormData({
@@ -40,6 +42,7 @@ const App = () => {
         });
     };
 
+    // Handler for form submission
     const handleSubmit = async (event) => {
         event.preventDefault();
         try {
@@ -66,18 +69,32 @@ const App = () => {
         }
     };
 
+    // Filter players based on search query
+    const filteredPlayers = players.filter(player =>
+        player.name.toLowerCase().includes(searchQuery.toLowerCase())
+    );
     return (
         <div>
             <header>
                 <h1>Puppy Bowl Players</h1>
+                {/* Input for searching players */}
+                <input
+                    type="text"
+                    placeholder="Search players..."
+                    value={searchQuery}
+                    onChange={e => setSearchQuery(e.target.value)}
+                />
             </header>
             <main>
                 <Routes>
-                    <Route path="/" element={<AllPlayers players={players} />} />
-                    <Route path="/players/:id" element={<SinglePlayer />} />
+                    {/* Route for displaying all players */}
+                    <Route path="/" element={<AllPlayers players={filteredPlayers} />} />
+                    {/* Route for displaying single player details */}
+                    <Route path="/players/:id" element={<SinglePlayerDetails />} />
                 </Routes>
                 <div className="player-form">
                     <h2>Add New Player</h2>
+                    {/* Form for adding new player */}
                     <form onSubmit={handleSubmit}>
                         <input
                             type="text"
@@ -104,11 +121,52 @@ const App = () => {
                     </form>
                 </div>
                 <div className="player-list">
-                    {players.map(player => (
-                        <PlayerCard key={player.id} player={player} />
+                    {/* Display list of players */}
+                    {filteredPlayers.map(player => (
+                        <div key={player.id}>
+                            {/* Each player card with a "Details" button */}
+                            <PlayerCard player={player} />
+                            <Link to={`/players/${player.id}`}>
+                                <button>Details</button>
+                            </Link>
+                        </div>
                     ))}
                 </div>
             </main>
+        </div>
+    );
+};
+
+// SinglePlayerDetails component to display detailed information about a single player
+const SinglePlayerDetails = () => {
+    // Get player ID from URL params
+    const { id } = useParams();
+
+    // UseEffect to fetch player details based on ID
+    useEffect(() => {
+        const fetchPlayerDetails = async () => {
+            try {
+                const response = await fetch(`https://fsa-puppy-bowl.herokuapp.com/api/2401-FTB-MT-WEB-PT/players/${id}`);
+                const result = await response.json();
+                // Handle successful response
+                if (result.success) {
+                    console.log('Player Details:', result.data.player);
+                } else {
+                    console.error('Failed to fetch player details:', result.error);
+                }
+            } catch (error) {
+                console.error('Error fetching player details:', error);
+            }
+        };
+
+        fetchPlayerDetails();
+    }, [id]); // Dependency array to re-run effect when ID changes
+
+    return (
+        <div>
+            <h2>Player Details</h2>
+            <p>Player ID: {id}</p>
+           
         </div>
     );
 };
