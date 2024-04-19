@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Routes, Route, Link, useParams } from 'react-router-dom';
 import AllPlayers from './components/AllPlayers';
 import PlayerCard from './components/PlayerCard';
-import './App.css';
+import './App.css'; 
 
 const App = () => {
     // State variables for managing players, form data, search query
@@ -95,7 +95,7 @@ const App = () => {
                 <div className="player-form">
                     <h2>Add New Player</h2>
                     {/* Form for adding new player */}
-                    <form onSubmit={handleSubmit}>
+                    <form id="addPuppyForm" onSubmit={handleSubmit}>
                         <input
                             type="text"
                             name="name"
@@ -120,14 +120,14 @@ const App = () => {
                         <button type="submit">Add Player</button>
                     </form>
                 </div>
-                <div className="player-list">
+                <div className="player-list" id="puppyList">
                     {/* Display list of players */}
                     {filteredPlayers.map(player => (
                         <div key={player.id}>
                             {/* Each player card with a "Details" button */}
                             <PlayerCard player={player} />
                             <Link to={`/players/${player.id}`}>
-                                <button>Details</button>
+                                <button className="details-button">Details</button>
                             </Link>
                         </div>
                     ))}

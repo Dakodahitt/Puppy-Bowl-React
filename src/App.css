@@ -1,57 +1,74 @@
-ul#puppyList {
+body {
+    font-family: Arial, sans-serif;
     display: flex;
-    flex-wrap: wrap;
+    flex-direction: column;
+    align-items: center;
+    background-color: white;
+    color: #213547;
+  }
+  
+  h1 {
+    display: flex;
     justify-content: center;
-    padding: 0;
-    list-style-type: none;
-}
+    margin-top: 20px;
+  }
 
-ul#puppyList li {
-    margin: 10px;
-    padding: 10px;
-    border: 1px solid black;
-    border-radius: 5px;
-    width: 200px; /* Set a fixed width for each list item */
-    background-color: bisque;
-    text-align: center; /* Center the content horizontally */
-}
-
-ul#puppyList li img {
-    width: 150px; /* Set a fixed width for the images */
-    height: auto; /* Maintain the aspect ratio */
-    border-radius: 5px; /* Add border radius */
-    margin-bottom: 10px; /* Add some space between the image and other content */
-}
-
-ul#puppyList li span {
-    display: block;
-    font-weight: bold;
-}
-
-ul#puppyList li .delete-button,
-ul#puppyList li .details-button {
-    padding: 5px 10px;
-    border-radius: 5px;
+  form#addPuppyForm {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 20px;
+    margin-bottom: 20px;
+  }
+  
+  form#addPuppyForm label,
+  form#addPuppyForm input,
+  form#addPuppyForm button {
+    margin-bottom: 10px;
+  }
+  
+  form#addPuppyForm button {
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
     cursor: pointer;
+  }
+  
+  form#addPuppyForm button:hover {
+    background-color: #45a049;
+  }
+img { display: flex;
+    justify-content: center;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    width: 250px;
+    padding: 30px;
+    border: #4CAF50;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
 }
+    
+    
+    div#puppyList {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
 
-/* Styling for delete and details buttons */
-ul#puppyList li .delete-button {
-    background-color: #f44336;
+  input[type=text] {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    box-sizing: border-box;
+    background: white;
+  }
+  button {
+    background-color: #4CAF50;
     color: white;
-    border: solid 1px #f44336;
-}
-
-ul#puppyList li .delete-button:hover {
-    background-color: #cc0000;
-}
-
-ul#puppyList li .details-button {
-    background-color: #007bff;
-    color: white;
-    border: solid 1px #007bff;
-}
-
-ul#puppyList li .details-button:hover {
-    background-color: #0056b3;
-}
+    padding: 20px 20px;
+    margin: 8px 0;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+  }
