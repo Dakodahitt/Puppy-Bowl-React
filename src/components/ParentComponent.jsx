@@ -10,10 +10,7 @@ const ParentComponent = () => {
 
     return (
         <div>
-            {/* 
-                Render PlayerCard component and pass player object and handleDelete function as props 
-                Make sure player object contains id, name, and imageUrl properties
-            */}
+            
             <PlayerCard 
                 player={{ id: 1, name: 'Example Player', imageUrl: 'example.jpg' }} 
                 onDelete={handleDelete} 
