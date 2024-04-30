@@ -80,6 +80,7 @@ const App = () => {
                 />
             </header>
             <main>
+                
                 <Routes>
                     <Route path="/" element={<AllPlayers players={filteredPlayers} />} />
                     <Route path="/players/:id" element={<SinglePlayerDetails />} /> {}

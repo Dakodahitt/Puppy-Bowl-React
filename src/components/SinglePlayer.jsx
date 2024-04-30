@@ -1,32 +1,47 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import PlayerCard from './PlayerCard';
-import { fetchSinglePlayer } from '../API';
 
-function SinglePlayer() {
+const SinglePlayerDetails = () => {
+    const { id } = useParams();
     const [player, setPlayer] = useState(null);
-    const [isLoading, setIsLoading] = useState(true);
-
-    const { playerId } = useParams();
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        const getPlayerByID = async () => {
+        const fetchPlayer = async () => {
             try {
-                const playerData = await fetchSinglePlayer(playerId);
-                setPlayer(playerData);
-                setIsLoading(false);
+                const response = await fetch(`https://fsa-puppy-bowl.herokuapp.com/api/2401-FTB-MT-WEB-PT/players/${id}`);
+                const result = await response.json();
+                if (result.success) {
+                    setPlayer(result.data.player);
+                } else {
+                    console.error('Player not found:', result.error);
+                }
             } catch (error) {
-                console.error('Error fetching single player:', error);
+                console.error('Error fetching player:', error);
+            } finally {
+                setLoading(false);
             }
         };
-        getPlayerByID();
-    }, [playerId]);
 
-    if (isLoading) return <h3>Loading...</h3>;
+        fetchPlayer();
+    }, [id]);
 
-    if (!player) return <h3>Player not found</h3>;
+    if (loading) {
+        return <div>Loading...</div>;
+    }
 
-    return <PlayerCard key={player.id} player={player} />;
-}
+    if (!player) {
+        return <div>Player not found</div>;
+    }
 
-export default SinglePlayer;
+    return (
+        <div>
+            <h2>{player.name}</h2>
+            <p>Breed: {player.breed}</p>
+            <img src={player.imageUrl} alt={player.name} />
+            
+        </div>
+    );
+};
+
+export default SinglePlayerDetails;
