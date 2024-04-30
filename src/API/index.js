@@ -14,7 +14,7 @@ const fetchAllPlayers = async () => {
 
 const fetchSinglePlayer = async (playerId) => {
     try {
-        const response = await fetch(`https://fsa-puppy-bowl.herokuapp.com/api/2401-FTB-MT-WEB-PT/players/${playerId}`);
+        const response = await fetch(`https://fsa-puppy-bowl.herokuapp.com/api/2401-FTB-MT-WEB-PT/players/id`);
         const result = await response.json();
         if (result.success) {
             return result.data.player;
@@ -22,7 +22,7 @@ const fetchSinglePlayer = async (playerId) => {
             throw new Error(result.error);
         }
     } catch (error) {
-        console.error('Error fetching single player:', error);
+        console.error('Error fetching single player:', error);  
         return null;
     }
 };

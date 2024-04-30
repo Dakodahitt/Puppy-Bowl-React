@@ -46,7 +46,7 @@ const NewPlayerForm = () => {
     return (
         <div className="player-form">
             <h2>Add New Player</h2>
-            {/* Form for adding new player */}
+           
             <form onSubmit={handleSubmit}>
                 <input
                     type="text"

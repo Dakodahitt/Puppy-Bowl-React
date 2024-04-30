@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { Routes, Route, Link, useParams } from 'react-router-dom';
 import AllPlayers from './components/AllPlayers';
 import PlayerCard from './components/PlayerCard';
-import NewPlayer from './components/NewPlayer';
+import NewPlayer from './components/NewPlayerForm';
+import SinglePlayerDetails from './components/SinglePlayer';
 import './App.css'; 
 
 const App = () => {
@@ -81,6 +82,7 @@ const App = () => {
             <main>
                 <Routes>
                     <Route path="/" element={<AllPlayers players={filteredPlayers} />} />
+                    <Route path="/players/:id" element={<SinglePlayerDetails />} /> {}
                 </Routes>
                 <NewPlayer
                     formData={formData}
@@ -98,35 +100,6 @@ const App = () => {
                     ))}
                 </div>
             </main>
-        </div>
-    );
-};
-
-const SinglePlayerDetails = () => {
-    const { id } = useParams();
-
-    useEffect(() => {
-        const fetchPlayerDetails = async () => {
-            try {
-                const response = await fetch(`https://fsa-puppy-bowl.herokuapp.com/api/2401-FTB-MT-WEB-PT/players/${id}`);
-                const result = await response.json();
-                if (result.success) {
-                    console.log('Player Details:', result.data.player);
-                } else {
-                    console.error('Failed to fetch player details:', result.error);
-                }
-            } catch (error) {
-                console.error('Error fetching player details:', error);
-            }
-        };
-
-        fetchPlayerDetails();
-    }, [id]);
-
-    return (
-        <div>
-            <h2>Player Details</h2>
-            <p>Player ID: {id}</p>
         </div>
     );
 };
